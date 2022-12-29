@@ -122,24 +122,25 @@ class HBNBCommand(cmd.Cmd):
         elif arg[0] not in HBNBCommand.classes:
             print("** class doesn't exist **")
             return
-        param = arg[1:]
-        dictionary = {}
+        attr = arg[1:]
+        dictionary = dict()
+        # split the attribute into key/value pairs
         try:
-            for i in param:
-                get_index = i.index('=')
-                get_key = i[:get_index]
-                get_value = eval(i[get_index + 1:])
-                if type(get_value) is str:
-                    get_value = get_value.replace('_', ' ')
-                if type(get_value) is str and get_value.find('_'):
-                    get_value = get_value.replace('_', ' ')
-                dictionary[get_key] = get_value
+            for a in attr:
+                split_index = a.index('=')
+                key = a[:split_index]
+                value = eval(a[split_index + 1:])
+                if type(value) is str:
+                    value = value.replace('_', ' ')
+                if type(value) is str and value.find('_'):
+                    value = value.replace('_', ' ')
+                dictionary[key] = value
+                # print(diction)
         except ValueError:
             pass
         new_instance = HBNBCommand.classes[arg[0]](**dictionary)
         storage.save()
         print(new_instance.id)
-        storage.save()
 
     def help_create(self):
         """ Help information for the create method """
